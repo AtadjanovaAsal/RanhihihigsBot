@@ -6,3 +6,11 @@ button_continue = InlineKeyboardButton(
 )
 
 keyboard_continue = InlineKeyboardMarkup(inline_keyboard=[[button_continue]])
+
+
+
+button_prepod = InlineKeyboardButton(text="Преподаватель", callback_data='role_prepod')
+button_student = InlineKeyboardButton(text="Студент",  callback_data='role_student')
+
+
+keyboard_roles = InlineKeyboardMarkup(inline_keyboard=[[button_prepod, button_student]])

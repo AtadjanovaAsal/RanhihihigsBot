@@ -2,3 +2,4 @@
 
 from .handlers import register_message_handler
 from .bot_commands import commands_for_bot
+from .yandex import check_new_files

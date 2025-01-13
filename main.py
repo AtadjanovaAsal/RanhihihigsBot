@@ -13,10 +13,21 @@ import logging  # чтобы отследить состояние бота, и�
 import asyncio  # асинхронный ввод-вывод
 from aiogram import Bot, Dispatcher, types, filters  # класс бота и диспетчера
 from config import TOKEN
-from handlers import register_message_handler, commands_for_bot
+from handlers import register_message_handler, commands_for_bot, check_new_files
 from db import async_create_table
+from threading import Thread
 
+def loop_in_thread(loop):
+    print('loop')
+    asyncio.set_event_loop(loop)
+    asyncio.run(check_new_files(TOKEN))
 
+async def on_startup(dp):
+    print('init')
+    loop = asyncio.get_event_loop()
+    t = Thread(target=loop_in_thread, args=(loop,))
+    t.start()
+    
 async def main() -> None:
     """polling-запуск проекта"""
 
@@ -26,7 +37,8 @@ async def main() -> None:
     # Экзампляры бота и диспетчера
     bot = Bot(TOKEN)
     dp = Dispatcher()
-
+    
+    await on_startup(dp)
     # Функция для вызова обработчиков
     await register_message_handler(dp)
 
